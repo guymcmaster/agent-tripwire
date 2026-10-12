@@ -1,0 +1,91 @@
+{
+  "caps": {
+    "max_subagents": 20,
+    "max_tokens": 5000000,
+    "max_usd": 25.0,
+    "max_tool_calls": 2000
+  },
+  "loop": {
+    "enabled": true,
+    "max_identical_in_window": 4,
+    "window": 12
+  },
+  "daily_budget_usd": 50.0,
+  "prices": {
+    "default": {
+      "input": 3.0,
+      "output": 15.0,
+      "cache_read": 0.3,
+      "cache_write": 3.75
+    },
+    "opus": {
+      "input": 15.0,
+      "output": 75.0,
+      "cache_read": 1.5,
+      "cache_write": 18.75
+    },
+    "haiku": {
+      "input": 1.0,
+      "output": 5.0,
+      "cache_read": 0.1,
+      "cache_write": 1.25
+    },
+    "gpt-5": {
+      "input": 1.25,
+      "output": 10.0,
+      "cache_read": 0.125,
+      "cache_write": 0.0
+    }
+  },
+  "approval": {
+    "enabled": true,
+    "mode": "ask",
+    "rules": [
+      {
+        "name": "rm -rf",
+        "tool": "^(Bash|exec_command|shell)$",
+        "input": "\\brm\\s+(-[a-zA-Z]*[rR][a-zA-Z]*f|-[a-zA-Z]*f[a-zA-Z]*[rR]|--recursive\\s+--force|--force\\s+--recursive)\\b"
+      },
+      {
+        "name": "force push",
+        "tool": "^(Bash|exec_command|shell)$",
+        "input": "\\bgit\\s+push\\b.*(\\s--force\\b|\\s-f\\b|\\s--force-with-lease\\b|\\s\\+\\S+)"
+      },
+      {
+        "name": "send",
+        "tool": "(?i)(^|__)(send|reply|forward|post|publish)[_a-z]*",
+        "input": ""
+      },
+      {
+        "name": "sign",
+        "tool": "(?i)(^|__)[a-z_]*sign[_a-z]*$",
+        "input": ""
+      },
+      {
+        "name": "delete",
+        "tool": "(?i)(^|__)(delete|trash|remove|destroy|drop)[_a-z]*",
+        "input": ""
+      },
+      {
+        "name": "submit",
+        "tool": "(?i)(^|__)(submit|merge)[_a-z]*",
+        "input": ""
+      },
+      {
+        "name": "purchase",
+        "tool": "(?i)(^|__)(purchase|buy|checkout|pay|order|place_order|charge)[_a-z]*",
+        "input": ""
+      },
+      {
+        "name": "shell send/delete",
+        "tool": "^(Bash|exec_command|shell)$",
+        "input": "\\b(gh\\s+(repo|release)\\s+delete|gh\\s+pr\\s+merge|sendmail|mail\\s+-s|curl\\b.*-X\\s*(POST|DELETE)\\b.*(api\\.stripe|/send|/messages))"
+      }
+    ]
+  },
+  "watchdog": {
+    "hung_minutes": 20
+  },
+  "webhook_url": "",
+  "status_file": ""
+}
